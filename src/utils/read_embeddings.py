@@ -7,7 +7,7 @@ from sys import getsizeof
 def read_embeddings(filename):
     data = []
     idx = 0
-    logging.debug("Reading input file %s", filename)
+    logging.debug("Reading embeddings from file %s", filename)
     with zipfile.ZipFile(filename, mode='r') as z:
         for name in z.namelist():
             with z.open(name, mode='r') as f:

@@ -3,7 +3,7 @@
 import sys
 import argparse
 
-from src.clustering import T5_DBSCAN
+from src.clustering.T5DBScan import T5_DBSCAN
 from src.clustering.T5_KMeans import T5_KMEANS
 
 # Press the green button in the gutter to run the script.
@@ -34,11 +34,13 @@ if __name__ == '__main__':
     else:
         sys.exit(-1)
 
-    pipeline.split(args.input, sampling=args.sampling, train_size=args.train_size, test_size=args.test_size)
-    pipeline.reduce(pipeline.train_data).cluster()
+    pipeline.split(args.input, sampling=args.sampling, train_size=args.train_size, test_size=args.test_size)\
+        .reduce()\
+        .cluster()
 
     if args.save_model:
         import pickle
-        pickle.dump(pipeline.clusterer, open(args.model_name, "wb"))
+        pickle.dump(pipeline.reducer, open(args.model_name + ".umap.model.pkl", 'wb'))
+        pickle.dump(pipeline.kmeans, open(args.model_name + '.kmeans.model.pkl', "wb"))
     pipeline.logger.info("Finished")
 
